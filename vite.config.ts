@@ -10,6 +10,7 @@ export default defineConfig({
     },
   },
   server: {
+    host: true, // Exposes server on local network for physical Android phone testing
     port: 5173,
     proxy: {
       '/api': {

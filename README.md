@@ -1,30 +1,65 @@
-# CropSeq — Intelligent Crop Sequence Recommendation System (Frontend)
+# CropSeq AI — Mobile-First AI Agriculture Assistant App
 
-Built for the **NASA Space Apps Challenge**, CropSeq is an AI-powered agricultural planning platform that leverages NASA Earth Observation datasets (SMAP, GPM, MODIS) and local soil telemetry to recommend multi-season crop sequences optimizing for yield, soil health, water efficiency, and financial return.
+Developed for the **NASA Space Apps Challenge**, CropSeq AI is a modern, mobile-first agricultural co-pilot designed with a ChatGPT/Claude-inspired conversational interface. It combines NASA Earth observations (SMAP soil moisture, GPM rainfall, MODIS vegetation dynamics) with local field chemistry to guide farmers through multi-season crop sequencing, seasonal climate adaptation, and sustainable soil management.
 
 ---
 
-## 🌟 Architecture & Features
+## 📱 Mobile-First Experience & Responsive Multi-Device Support
 
-- **API-First Architecture**: Built around the standard CropSeq FastAPI backend specification. No mocked data, synthetic fallbacks, or client-side calculation simulations.
-- **Guided Chat Intake**: Step-by-step interactive questionnaire collecting GPS coordinates, soil metrics (pH, NPK, organic matter), irrigation infrastructure, historical fallow periods, and risk/objective constraints.
-- **Full Client Validation**: Rigorous validation ensures all agronomic fields satisfy biological and geographic constraints before dispatching to the optimizer.
-- **Farmer Profile Review**: Clear summary dashboard with inline editing before final optimization submission.
-- **Dynamic Results Dashboard**:
-  - **Optimization Summary Card**: Net return, soil health index delta, water footprint, and achieved objective.
-  - **Sequence Timeline**: Season-by-season schedule showing recommended crops, varieties, yields, cost/revenue projections, and agronomic justifications.
-  - **Pareto-Optimal Alternatives**: Multi-objective trade-off comparison (e.g. maximum financial yield vs. conservation agriculture).
-  - **Agronomic Evidence**: Detailed NASA satellite sensor provenance (SMAP moisture, GPM rainfall, MODIS vegetation dynamics).
-  - **Environmental & Risk Warnings**: Dynamic risk advisories for drought anomalies, pest vectors, and monoculture risks.
-  - **Future Q&A Interface**: Dedicated upcoming feature area for interactive scenario analysis.
-- **Resilient Backend Connection Handling**: Built-in connection status indicators, clear offline error states, and retry workflows for when the backend is offline.
+CropSeq AI is engineered as a **mobile application experience first**, with responsive expansion for tablets and desktop workstations:
+
+- **On Android & Mobile Devices**:
+  - Native mobile app layout: safe-area insets (`env(safe-area-inset-bottom)`), touch targets (>44px), overscroll control, and zero horizontal scrolling.
+  - Floating bottom chat input bar with auto-resizing text field and send button.
+  - Native-style **Bottom Navigation Bar** with 4 primary tabs: **Assistant**, **Sequence Optimizer**, **Seasonal Variations**, and **My Farm**.
+  - Smooth mobile slide-over drawer for quick conversation resets, backend status, and feature navigation.
+  - PWA-ready: `viewport-fit=cover`, `theme-color: #14532d`, and mobile web app meta tags.
+- **On Tablets & Desktop/Laptops**:
+  - Automatically switches to an expanded dual-pane layout.
+  - Persistent left sidebar with active farm telemetry, live backend status ping, conversation shortcuts, and feature directories.
+  - Centered reading line-lengths (`max-w-4xl`) for desktop ergonomics.
+- **Physical Android Phone Local Network Testing**:
+  - Vite dev server is pre-configured with `server.host = true` (`0.0.0.0:5173`).
+  - Connect your Android phone to the same Wi-Fi and open `http://<YOUR_LOCAL_IP>:5173`.
+
+---
+
+## 🌟 Core Features & Feature Shortcuts
+
+The main home screen features a conversational AI co-pilot paired with 5 dedicated feature shortcuts:
+
+### 1. 🌾 Crop Sequence Recommendation (`/sequence`)
+- Multi-season crop rotation optimization powered by NASA Earth observations and linear programming/agronomic models.
+- Offers both a **Guided Intake Questionnaire** and a **Fast Review & Run** mode.
+- Full results dashboard with cumulative net return, soil health delta, water footprint, chronological rotation schedule, Pareto-optimal trade-offs, and dynamic risk warnings.
+- Real API integration: dispatches directly to `POST /api/v1/recommendations/optimize`.
+
+### 2. 🌤️ Crop Seasonal Variation (`/seasonal`)
+- Dynamic seasonal breakdown covering **Kharif** (Monsoon/Summer Wet), **Rabi** (Winter/Dry Cool), and **Zaid** (Summer Short Season).
+- Real-time NASA SMAP soil moisture dynamics and precipitation expectations.
+- Crop suitability, water requirements, growth cycles, and recommended cover crops.
+- One-tap "Add to Sequence Optimizer" integration.
+
+### 3. 🌱 Further Crop Recommendations (`/recommendations`)
+- Categorized exploration: Legumes & N-Fixers, Drought Resilient, Cash Crops, and Cover & Soil Restorers.
+- Real-time compatibility checks based on the farm's active soil pH and water efficiency ratings.
+- Instant "Add to Target Crops" button that syncs directly into the farmer's optimization preferences.
+
+### 4. 🚜 Farmer Features & Profile (`/farm`)
+- Active farm metadata: GPS coordinates, region, and land area (hectares).
+- **Soil Health Telemetry Gauges**: Interactive pH reaction meter (Acidic / Favorable / Neutral / Alkaline), SOM percentage, and available NPK bars.
+- Operational objectives and risk tolerance controls.
+
+### 5. 🌐 Web Search Integration (ChatGPT Style)
+- Interactive web search toggle built right into the message input bar.
+- Visually augments inquiries with real-time agronomic data and market price context.
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Framework**: [React 18](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
-- **Build Tool**: [Vite 6](https://vitejs.dev/)
+- **Build Tool**: [Vite 6](https://vitejs.dev/) (Host enabled for local Wi-Fi testing)
 - **Styling**: [Tailwind CSS 3](https://tailwindcss.com/)
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Routing**: [React Router DOM v6](https://reactrouter.com/)
@@ -34,142 +69,42 @@ Built for the **NASA Space Apps Challenge**, CropSeq is an AI-powered agricultur
 
 ## 🚀 Quick Start
 
-### 1. Prerequisites
-- **Node.js**: v18.0.0 or higher (v20+ recommended)
-- **npm**: v9.0.0 or higher
-
-### 2. Installation
-Clone the repository and install dependencies:
-
+### 1. Installation
 ```bash
-git clone https://github.com/your-username/NASA-SpaceApp-Crop-Sequence-Frontend.git
+git clone https://github.com/Samin-Yasar-CSE/NASA-SpaceApp-Crop-Sequence-Frontend.git
 cd NASA-SpaceApp-Crop-Sequence-Frontend
 npm install
 ```
 
-### 3. Environment Configuration
-The frontend connects to the CropSeq backend using the `VITE_API_BASE_URL` environment variable.
-
-Create a `.env` file in the root directory (or copy `.env.example`):
-
-```bash
-# .env
+### 2. Environment Configuration
+Create a `.env` file in the root directory:
+```env
 VITE_API_BASE_URL=http://127.0.0.1:8000
 ```
 
-| Variable | Default Value | Description |
-| :--- | :--- | :--- |
-| `VITE_API_BASE_URL` | `http://127.0.0.1:8000` | Target URL for the CropSeq backend service |
-
-### 4. Running the Development Server
-Start Vite development server:
-
+### 3. Running Development Server
 ```bash
 npm run dev
 ```
+- Local access: `http://localhost:5173`
+- Network access (Android phone on same Wi-Fi): `http://<YOUR_IP>:5173`
 
-The application will be live at: **`http://localhost:5173`**
-
-### 5. Building for Production
-Create an optimized production bundle:
-
+### 4. Production Build & Verification
 ```bash
 npm run build
-```
-
-Preview the production build locally:
-
-```bash
 npm run preview
 ```
 
 ---
 
-## 🔌 Connecting to the Backend
+## 🔌 Backend Integration
 
-The frontend communicates with the CropSeq backend using standard REST endpoints:
-
-### Endpoints Leveraged:
-1. **Health Check**:
-   - `GET /health`
-   - Verifies server availability and readiness.
-2. **Crop Sequence Optimization**:
-   - `POST /api/v1/recommendations/optimize`
-   - Payload: `FarmerProfile` JSON object.
-   - Response: `FinalResponse` JSON object containing `optimization_summary`, `recommended_sequence`, `pareto_optimal_alternatives`, and `warnings`.
-
-### Running with a Local Backend:
-1. Start your backend service on `http://127.0.0.1:8000`.
-2. Confirm the health check works:
-   ```bash
-   curl http://127.0.0.1:8000/health
-   ```
-3. Start the frontend:
-   ```bash
-   npm run dev
-   ```
-4. If your backend is hosted on a different port or server (e.g. `http://localhost:8080` or remote host), update `VITE_API_BASE_URL` in `.env` and restart Vite.
-
----
-
-## 📁 Project Structure
-
-```
-NASA-SpaceApp-Crop-Sequence-Frontend/
-├── public/                 # Static assets & icons
-│   └── favicon.svg
-├── src/
-│   ├── api/                # Centralized API service layer
-│   │   └── cropseqApi.ts   # Axios instance, health check & optimize endpoints
-│   ├── components/
-│   │   ├── chat/           # Guided chat intake interface
-│   │   │   └── ChatIntake.tsx
-│   │   ├── common/         # Common UI (EmptyState, ErrorDisplay, LoadingSpinner)
-│   │   ├── layout/         # Header, Footer, and Layout shell
-│   │   ├── results/        # Results components
-│   │   │   ├── OptimizationSummaryCard.tsx
-│   │   │   ├── SequenceTimeline.tsx
-│   │   │   ├── ParetoAlternatives.tsx
-│   │   │   ├── WarningsPanel.tsx
-│   │   │   └── FutureQA.tsx
-│   ├── context/            # React Context & reducer for application state
-│   │   └── AppContext.tsx
-│   ├── hooks/              # Custom React hooks (useApi)
-│   ├── pages/              # Primary route views
-│   │   ├── LandingPage.tsx # Overview & features
-│   │   ├── IntakePage.tsx  # Chat intake
-│   │   ├── ReviewPage.tsx  # Intake verification & submission
-│   │   └── ResultsPage.tsx # Complete recommendation dashboard
-│   ├── types/              # TypeScript definitions
-│   │   ├── farmerProfile.ts  # FarmerProfile request types
-│   │   └── recommendation.ts # FinalResponse types
-│   ├── utils/              # Validation & formatting utilities
-│   ├── App.tsx             # Route definitions
-│   ├── index.css           # Tailwind directives & theme styles
-│   └── main.tsx            # React application root
-├── .env                    # Local environment variables
-├── .env.example            # Environment template
-├── index.html              # HTML shell
-├── package.json            # Dependencies and scripts
-├── tailwind.config.js      # Custom agriculture & earth color palettes
-├── tsconfig.json           # TypeScript configuration
-└── vite.config.ts          # Vite configuration & backend proxy
-```
-
----
-
-## 🧪 Testing the Frontend Flow
-
-1. **Without Backend**:
-   - Navigate to `/intake`.
-   - Complete the chat questions or advance through the steps.
-   - Review your inputs on `/review`.
-   - Click **Submit for Optimization**.
-   - If the backend is not running, the application will display a clear connection error modal with an explanation and a **Retry** button.
-2. **With Backend**:
-   - Start the backend on `http://127.0.0.1:8000`.
-   - Click **Retry** or submit again.
-   - The dashboard dynamically renders the real sequence, financial metrics, Pareto trade-offs, and environmental warnings.
+The app connects to the CropSeq backend using real HTTP requests:
+- Health check: `GET /health`
+- Sequence optimization: `POST /api/v1/recommendations/optimize`
+- Request payload: Typed `FarmerProfile` object.
+- Response payload: Typed `FinalResponse` object.
+- **Offline Resilient**: When the backend is offline, the app displays a clear connection diagnostic error with an instant **Retry** button. No synthetic or fake recommendations are ever fabricated.
 
 ---
 

@@ -5,63 +5,67 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+    @apply bg-slate-50 text-slate-900 antialiased;
     font-feature-settings: 'cv11', 'ss01', 'ss03';
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+@layer utilities {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .min-h-screen-safe {
+    min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-crop-green-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-crop-green-700 focus:outline-none focus:ring-2 focus:ring-crop-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-crop-green-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all active:scale-[0.98] hover:bg-crop-green-700 focus:outline-none focus:ring-2 focus:ring-crop-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-crop-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all active:scale-[0.98] hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-crop-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .card {
-    @apply rounded-xl border border-gray-200 bg-white p-6 shadow-sm;
+    @apply rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm;
   }
 
   .card-hover {
-    @apply card transition-shadow hover:shadow-md;
+    @apply card transition-all hover:border-crop-green-300 hover:shadow-md active:scale-[0.99];
   }
 
   .input-field {
-    @apply w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition-colors focus:border-crop-green-500 focus:outline-none focus:ring-2 focus:ring-crop-green-500/20;
+    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-crop-green-500 focus:outline-none focus:ring-2 focus:ring-crop-green-500/20;
   }
 
   .select-field {
     @apply input-field appearance-none cursor-pointer;
   }
 
-  .label-text {
-    @apply block text-sm font-medium text-gray-700 mb-1.5;
-  }
-
-  .chat-bubble-system {
-    @apply rounded-2xl rounded-tl-sm bg-crop-green-50 border border-crop-green-100 px-5 py-3 text-sm text-gray-800 max-w-[85%];
+  .chat-bubble-ai {
+    @apply rounded-2xl rounded-tl-sm bg-white border border-slate-200/90 p-4 text-sm text-slate-800 shadow-sm leading-relaxed;
   }
 
   .chat-bubble-user {
-    @apply rounded-2xl rounded-tr-sm bg-sky-blue-50 border border-sky-blue-100 px-5 py-3 text-sm text-gray-800 max-w-[85%];
-  }
-}
-
-@layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.4s ease-out;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.4s ease-out;
-  }
-
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    @apply rounded-2xl rounded-tr-sm bg-crop-green-700 text-white p-4 text-sm shadow-sm leading-relaxed;
   }
 }
 
@@ -71,6 +75,14 @@
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }

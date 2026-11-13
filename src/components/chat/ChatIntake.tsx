@@ -635,11 +635,11 @@ export default function ChatIntake() {
           <button
             onClick={() => {
               dispatch({ type: 'SET_STEP', payload: 'review' });
-              navigate('/review');
+              navigate('/sequence');
             }}
             className="btn-primary text-base px-10 py-4"
           >
-            Review My Farm Profile
+            Review & Run Crop Sequence
           </button>
         </div>
       )}
